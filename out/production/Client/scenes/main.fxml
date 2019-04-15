@@ -5,19 +5,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="VBoxMainView" prefHeight="550.0" prefWidth="680.0" stylesheets="" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<AnchorPane id="VBoxMainView" prefHeight="302.0" prefWidth="411.0" stylesheets="" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <children>
-        <Button fx:id="login_button" layoutX="278.0" layoutY="263.0" mnemonicParsing="false" onAction="#ActionLogin" prefHeight="39.0" prefWidth="132.0" text="Войти">
+        <Button fx:id="login_button" layoutX="140.0" layoutY="127.0" mnemonicParsing="false" onAction="#ActionLogin" prefHeight="39.0" prefWidth="132.0" text="Войти">
             <font>
                 <Font name="System Bold" size="17.0" />
             </font>
         </Button>
-        <Button layoutX="278.0" layoutY="319.0" mnemonicParsing="false" onAction="#ActionRegister" prefHeight="39.0" prefWidth="132.0" text="Регистрироватся">
+        <Button layoutX="140.0" layoutY="189.0" mnemonicParsing="false" onAction="#ActionRegister" prefHeight="39.0" prefWidth="132.0" text="Регистрация">
             <font>
                 <Font name="System Bold" size="17.0" />
             </font>
         </Button>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="195.0" layoutY="192.0" style="-fx-text-alignment: center;" text="Аутентификация" textAlignment="CENTER" textFill="#8b86e0">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="45.0" style="-fx-text-alignment: center;" text="Аутентификация" textAlignment="CENTER" textFill="#5bc2d0">
             <font>
                 <Font name="System Bold" size="36.0" />
             </font>

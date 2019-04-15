@@ -33,10 +33,14 @@ public class LoginController {
             DialogManager.showErrorDialog("WARNING", "Такого пользователя нет!");
         } else{
             emailField.getScene().getWindow().hide();
+
             switch (user.getRole()){
-                case 1: FXMLTransition.getInstance().transit("/scenes/client.fxml");
-                break;
-                case 2: FXMLTransition.getInstance().transit("/scenes/admin.fxml");
+                case "user": FXMLTransition.getInstance().transit("/scenes/client.fxml");
+                    break;
+                case "admin": FXMLTransition.getInstance().transit("/scenes/admin.fxml");
+                    break;
+                case "worker": FXMLTransition.getInstance().transit("/scenes/worker.fxml");
+                    break;
             }
         }
     }
