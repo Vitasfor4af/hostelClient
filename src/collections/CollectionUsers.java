@@ -16,6 +16,7 @@ public class CollectionUsers {
     }
 
     public void fillData() {
+        
         Connection.getInstance().post("usersTable ");
         usersList.clear();
         List<User> users = (List<User>)ServerMessage.get();

@@ -14,6 +14,9 @@ public class Connection {
     private Socket socket;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
+    private static final String url = "jdbc:mysql://localhost:3306/test";
+    private static final String user = "root";
+    private static final String password = "22383465887";
 
     private Connection() {
 
@@ -30,9 +33,9 @@ public class Connection {
         return instance;
     }
 
-    private void connect() {
+    public void connect() {
         try {
-            socket = new Socket("localhost", 2525);
+            socket = new Socket("localhost", 3306);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
         } catch (Exception e) {

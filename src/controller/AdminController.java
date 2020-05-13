@@ -12,12 +12,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.User;
+import starter.Start;
 import utils.DialogManager;
 
 public class AdminController {
     public ChoiceBox<String> role;
     public TextField name;
-    public TextField email;
+    public TextField login;
     public TextField password;
     @FXML
     private Button btnAdd;
@@ -33,6 +34,8 @@ public class AdminController {
     private TableColumn<User, String> columnPassword;
     @FXML
     private Button btnDelete;
+    @FXML
+    private Button btnClear;
 
     private CollectionUsers collectionUsers = new CollectionUsers();
     private User selectedUser = new User();
@@ -47,17 +50,17 @@ public class AdminController {
                     selectedUser = tableUserView.getSelectionModel().getSelectedItem();
 
                     name.setText(selectedUser.getName());
-                    email.setText(selectedUser.getLogin());
+                    login.setText(selectedUser.getLogin());
                     password.setText(selectedUser.getPassword());
                     role.setValue(selectedUser.getRole());
                 }
             }
         });
 
-        role.setItems(FXCollections.observableArrayList("admin", "user", "worker"));
+        role.setItems(FXCollections.observableArrayList("admin", "client"));
 
         columnName.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
-        columnRole.setCellValueFactory(new PropertyValueFactory<User, String>("role"));
+        columnRole.setCellValueFactory(new PropertyValueFactory<User, String>("roleID"));
         columnEmail.setCellValueFactory(new PropertyValueFactory<User, String>("login"));
         columnPassword.setCellValueFactory(new PropertyValueFactory<User, String>("password"));
 
@@ -77,11 +80,11 @@ public class AdminController {
 
         switch (clickedButton.getId()){
             case "btnAdd":
-                if(name.getText() != null && role.getItems() != null && email.getText() != null && password.getText() != null){
+                if(!name.getText().equals("") && role.getItems() != null && !login.getText().equals("") && !password.equals("")){
 
                     selectedUser.setName(name.getText());
                     selectedUser.setRole(role.getSelectionModel().getSelectedItem());
-                    selectedUser.setLogin(email.getText());
+                    selectedUser.setLogin(login.getText());
                     selectedUser.setPassword(password.getText());
                 }else {
                     DialogManager.showErrorDialog("Error", "Заполните поля!");
@@ -89,23 +92,34 @@ public class AdminController {
                 }
 
 
-                Connection.getInstance().post("addUser " + selectedUser.getId() + " " + selectedUser.getName() + " " + selectedUser.getRole() + " " + selectedUser.getLogin() + " " + selectedUser.getPassword());
+                Connection.getInstance().post("addClient " + selectedUser.getId() + " " + selectedUser.getName() + " " + selectedUser.getRole() + " " + selectedUser.getLogin() + " " + selectedUser.getPassword());
 
                 if((Boolean) ServerMessage.get()){
                     DialogManager.showInfoDialog("Info", "Добавление произошло успешно!");
                     name.clear();
-                    email.clear();
+                    login.clear();
                     password.clear();
                     initialize();
                 }
                 break;
             case "btnDelete":
-                Connection.getInstance().post("deleteUser " + selectedUser.getId());
-                if((Boolean) ServerMessage.get()){
-                    initialize();
-                    DialogManager.showInfoDialog("Info", "Удалено!");
-                }
+                name.clear();
+                login.clear();
+                role.setValue(null);
+                password.clear();
+                DialogManager.showInfoDialog("Info", "Удалено!");
+//                Connection.getInstance().post("deleteUser " + selectedUser.getId());
+//                if((Boolean) ServerMessage.get()){
+//                    initialize();
+//                    DialogManager.showInfoDialog("Info", "Удалено!");
+//                }
                 break;
+            case   "btnClear":
+                name.clear();
+                login.clear();
+                role.setValue(null);
+                password.clear();
+                DialogManager.showInfoDialog("Info", "Поля успещно очищены!");
         }
     }
 

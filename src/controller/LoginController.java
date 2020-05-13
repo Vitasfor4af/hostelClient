@@ -1,52 +1,90 @@
 package controller;
 
-import connection.Connection;
 import connection.FXMLTransition;
-import connection.ServerMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import model.User;
+import starter.Start;
 import utils.DialogManager;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginController {
 
     @FXML
-    private TextField emailField;
+    private TextField loginField;
     @FXML
     private PasswordField passwordField;
 
     public void ActionRegister(ActionEvent actionEvent) {
-        emailField.getScene().getWindow().hide();
+        loginField.getScene().getWindow().hide();
         FXMLTransition.getInstance().transit("/scenes/register.fxml");
     }
 
     public void ActionLogin(ActionEvent actionEvent) {
-        if (emailField.getText() != null && passwordField.getText() != null) {
-            Connection.getInstance().post("logIn " + emailField.getText().trim() + " " + passwordField.getText().trim());
-        } else DialogManager.showErrorDialog("WARNING", "Заполните все поля!");
-        User user = (User) ServerMessage.get();
-        if(user == null){
-            emailField.clear();
-            passwordField.clear();
-            DialogManager.showErrorDialog("WARNING", "Такого пользователя нет!");
-        } else{
-            emailField.getScene().getWindow().hide();
+        boolean isLoginValid = false;
+        boolean isPasswordValid = false;
 
-            switch (user.getRole()){
-                case "user": FXMLTransition.getInstance().transit("/scenes/client.fxml");
-                    break;
-                case "admin": FXMLTransition.getInstance().transit("/scenes/admin.fxml");
-                    break;
-                case "worker": FXMLTransition.getInstance().transit("/scenes/worker.fxml");
-                    break;
+        ResultSet resultUser = Start.connection.query("SELECT * FROM USERS");
+        if (!loginField.getText().equals("") && !passwordField.getText().equals("")) {
+            try {
+                while (resultUser.next()) {
+                    if (loginField.getText().equals(resultUser.getString("login"))) {
+                        isLoginValid = true;
+                        if(passwordField.getText().equals(resultUser.getString("password"))){
+                            isPasswordValid = true;
+                        }
+                    }
+                }
+                if(isLoginValid){
+                    if(!isPasswordValid){
+                        DialogManager.showErrorDialog("ОШИБКА", "Неверный пароль!");
+                        loginField.clear();
+                        passwordField.clear();
+                    }
+                } else{
+                    DialogManager.showErrorDialog("ОШИБКА", "Пользователя с таким логином не существует!");
+                    loginField.clear();
+                    passwordField.clear();
+                }
+
+
+            } catch(SQLException e){
+                e.printStackTrace();
+            }
+
+        } else {DialogManager.showErrorDialog("WARNING", "Заполните все поля!");}
+        if(isLoginValid && isPasswordValid){
+            resultUser = Start.connection.query("SELECT roleID FROM USERS WHERE login='" + loginField.getText() + "'");
+
+
+
+            try {
+                int role = 1;
+                while (resultUser.next()){
+                    role = resultUser.getInt("roleID");
+                }
+                loginField.getScene().getWindow().hide();
+                switch (role) {
+                    case 1:
+                        FXMLTransition.getInstance().transit("/scenes/admin.fxml");
+                        break;
+                    case 2:
+                        FXMLTransition.getInstance().transit("/scenes/client.fxml");
+                        break;
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
             }
         }
-    }
+
+        }
+
 
     public void ActionBack(ActionEvent actionEvent) {
-        emailField.getScene().getWindow().hide();
+        loginField.getScene().getWindow().hide();
         FXMLTransition.getInstance().transit("/scenes/main.fxml");
     }
 }

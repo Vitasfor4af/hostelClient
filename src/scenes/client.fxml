@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane minHeight="458.0" minWidth="585.0" prefHeight="634.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientController">
+<BorderPane minHeight="458.0" minWidth="585.0" prefHeight="634.0" prefWidth="585.0" style="-fx-background-color: #D8BFD8;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientController">
     <top>
         <AnchorPane id="header" prefHeight="118.0" prefWidth="749.0" BorderPane.alignment="CENTER">
             <children>
@@ -14,7 +13,7 @@
                         <Font name="Sitka Small Bold" size="10.0" />
                     </font>
                 </Button>
-                <Label layoutX="185.0" layoutY="38.0" text="Окно пользователя" AnchorPane.leftAnchor="185.0" AnchorPane.topAnchor="38.0">
+                <Label layoutX="185.0" layoutY="38.0" text="Привет stud" AnchorPane.leftAnchor="185.0" AnchorPane.topAnchor="38.0">
                     <font>
                         <Font name="Calibri Bold" size="24.0" />
                     </font>
@@ -43,7 +42,6 @@
             <TableView fx:id="tableRooms" layoutX="13.0" layoutY="222.0" prefHeight="239.0" prefWidth="423.0">
               <columns>
                 <TableColumn fx:id="numberRoom" prefWidth="75.0" text="Номер" />
-                <TableColumn fx:id="isEmpty" prefWidth="75.0" text="Свободно" />
                   <TableColumn fx:id="price" prefWidth="75.0" text="Цена за ночь, BYN" />
               </columns>
                <columnResizePolicy>
@@ -53,12 +51,12 @@
             </children></AnchorPane>
     </center>
     <left>
-        <AnchorPane id="leftBorder" prefHeight="383.0" prefWidth="80.0" BorderPane.alignment="CENTER" />
+        <AnchorPane id="leftBorder" prefHeight="383.0" prefWidth="60.0" BorderPane.alignment="CENTER" />
     </left>
     <right>
-        <AnchorPane id="body" prefHeight="463.0" prefWidth="88.0" BorderPane.alignment="CENTER">
+        <AnchorPane id="body" prefHeight="463.0" prefWidth="60.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="search" layoutX="-19.0" layoutY="180.0" mnemonicParsing="false" onAction="#ActionSearch" prefHeight="25.0" prefWidth="66.0" text="Найти" />
+            <Button fx:id="search" layoutX="-35.0" layoutY="180.0" mnemonicParsing="false" onAction="#ActionSearch" prefHeight="25.0" prefWidth="66.0" text="Найти" />
          </children></AnchorPane>
     </right>
     <bottom>

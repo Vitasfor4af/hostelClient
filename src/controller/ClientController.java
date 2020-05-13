@@ -10,8 +10,11 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import model.Room;
+import starter.Start;
 import utils.DialogManager;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ClientController {
@@ -34,14 +37,28 @@ public class ClientController {
     }
 
     public void ActionOrder(ActionEvent actionEvent) {
+
     }
 
     public void ActionSearch(ActionEvent actionEvent) {
         if(dateStart.getValue() == null && dateEnd.getValue() == null){
             DialogManager.showErrorDialog("Error", "Выберите дни");
         }else {
-            Connection.getInstance().post("getHostelNumber " + dateStart.getValue() + " " + dateEnd.getValue());
-            List<Room> roomList = (List<Room>) ServerMessage.get();
+            ResultSet resultOrder = Start.connection.query("SELECT * FROM ORDERS");
+
+            try {
+                while (resultOrder.next()) {
+                    if(!dateStart.getValue().equals(resultOrder.getDate("date_start")) && !dateEnd.getValue().equals(resultOrder.getDate("date_end"))){
+                        DialogManager.showErrorDialog("ОШИБКА", "Заказа на заданную дату несуществует!");
+                        break;
+                    }
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+
+//            Connection.getInstance().post("getHostelNumber " + dateStart.getValue() + " " + dateEnd.getValue());
+//            List<Room> roomList = (List<Room>) ServerMessage.get();
         }
     }
 }
